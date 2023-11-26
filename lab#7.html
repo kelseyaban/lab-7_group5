@@ -1,0 +1,69 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab #7</title>
+    <link rel="stylesheet" href="lab.css">
+  </head>
+  <body>
+
+    <h1>Application Layer: API calls</h1>
+    
+    <!-- Default section for Computer IP--> 
+    <section id="ip"></section>
+    <br>
+
+    <!-- Default section for Location-->
+    <section id="loc"></section>
+    <br>
+
+    <section id="country"></section>
+    <br>
+
+    <!-- Default section for weather-->
+    <section id="weather"></section>
+    <br>
+
+    <script>
+      var cityy, ss;
+      let loc = document.getElementById("loc");
+      let b = document.getElementById("ip");
+      let c = document.getElementById("weather");
+      let temp = document.getElementById("temp");
+      let country = document.getElementById("country");
+      ss = String.fromCodePoint(8457);
+
+      // First API to get the IP address and the second to find out your city and country
+      fetch("https://ipinfo.io/json?token=a9ae3aec5cf5d5")
+        .then((response) => response.json())
+        .then(function (jsonResponse) {
+          b.textContent = "Your IP Address is: " + jsonResponse.ip; // Displaying the Public IP
+          loc.textContent = "Your City is: " + jsonResponse.city; // Displaying the city (location)
+          country.textContent = "Your Country is: " + jsonResponse.country; // Displaying the country (location)
+          console.log(jsonResponse.ip);
+          cityy = jsonResponse.city;
+
+          const options = {
+            method: "GET",
+            headers: {
+              "x-RapidAPI-key":
+                "50c973c06emsh3f4748941215766p17f27ajsn1d475fab539c",
+              "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com",
+            },
+          };
+
+          // This would the Fourth API call, we use the result of the Seconde API call to find out the weather.
+          fetch(
+            `https://weatherapi-com.p.rapidapi.com/current.json?q=${cityy}`,
+            options
+          )
+            .then((response) => response.json())
+            .then((response) => [
+              (weather.textContent =
+                "Current Weather is : " +
+                response["current"].condition["text"]),
+            ]);
+        });
+    </script>
+  </body>
+</html>
